@@ -1,0 +1,58 @@
+#!/bin/bash
+
+echo "Instalación de las herramientas necesarias" 
+sudo yum install -y vim
+sudo yum install -y net-tools
+sudo yum install -y epel-release
+sudo yum -y update 
+echo "Instalacion de los plugins de nagios"
+sudo yum install -y nagios-plugins-all
+
+echo "configurando el selinux para desactivarlo"
+cat <<TEST> /etc/selinux/config
+SELINUX=disabled
+SELINUXTYPE=targeted
+TEST
+
+
+echo "Instalar nagios nrpe"
+sudo yum install -y nrpe
+
+
+line_number=106
+new_line_content="allowed_hosts=127.0.0.1,::1,192.168.100.2"
+sed -i "${line_number}s/.*/${new_line_content}/" /etc/nagios/nrpe.cfg
+
+
+sudo sed -i '305i command[check_sda1]=/usr/lib64/nagios/plugins/check_disk -w 20% -c 10% -p /dev/sda1' /etc/nagios/nrpe.cfg
+
+
+sudo systemctl enable --now nrpe
+sudo systemctl restart nrpe
+
+echo "instalacion HTTP con api sencillo"
+sudo yum -y update
+sudo yum install httpd -y
+httpd -v
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl reload httpd
+
+echo "Crear archivos de config de http"
+echo "<html><body><h1>index</h1></body></html>" > /var/www/html/index.html
+echo "console.log('users');" > /var/www/html/users.js
+echo "console.log('images.');" > /var/www/html/images.js
+service httpd restart
+
+
+echo "Instalacion de NRPE para monitoreo"
+sudo yum install -y tar
+sudo yum install -y wget
+cd /root
+wget https://assets.nagios.com/downloads/nagiosxi/agents/linux-nrpe-agent.tar.gz
+
+tar xzf linux-nrpe-agent.tar.gz
+cd linux-nrpe-agent
+./fullinstall -y
+rpm -Uvh https://repo.nagios.com/nagios/7/nagios-repo-7-4.el7.noarch.rpm
+yum install ncpa -y

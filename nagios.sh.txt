@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "instalacion de herramientas"
+sudo -i
+yum install -y net-tools
+yum install -y vim
+
+echo "instalacion de apache"
+sudo yum update
+sudo yum install -y httpd 
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+echo "confirmar que este funcionando http"confirmar que este corriendo
+systemctl status httpd
+
+
+echo "instalacion de PHP"
+sudo yum install -y yum-utils
+sudo yum update -y
+sudo yum -y install php
+sudo systemctl restart httpd
+
+echo "Instalacion de nagiosXI"
+sudo yum update -y
+sudo yum install net-tools mlocate
+sudo yum install open-vm-tools
+sudo curl https://assets.nagios.com/downloads/nagiosxi/install.sh | sh
