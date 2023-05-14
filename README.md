@@ -30,6 +30,15 @@
 8. It will ask us to accept the terms of servie
 9. The we will have a home dashboard for Nagios like the following one
 ![image5!](imagesReadme/image5.png)
-9. we are goin to click en the navigator bar in 'Dashboards', then we're goin to be able to see our nagios virtual machine statistics
+
+ we are goin to click en the navigator bar in 'Dashboards', then we're goin to be able to see our nagios virtual machine statistics
 ![image6!](imagesReadme/image6.png)
-#
+## Monitoring the Clients virtual machines with our Nagios virtual machine
+
+10. Firt we'll need add the virtual machine that we want to monitor, for that in the navigation bar we go to the configure section and then go to the deploy section
+![image7!](imagesReadme/image7.png)
+
+11. After that we are going to config and set the connection to the client virtual machine that we're adding
+![image8!](imagesReadme/image8.png)
+if we set right the connection to the client virtual machine the we'll have the next response
+![image9!](imagesReadme/image9.png)
