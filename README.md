@@ -28,4 +28,8 @@
 ![image4!](imagesReadme/image4.png)
 
 8. It will ask us to accept the terms of servie
+9. The we will have a home dashboard for Nagios like the following one
+![image5!](imagesReadme/image5.png)
+9. we are goin to click en the navigator bar in 'Dashboards', then we're goin to be able to see our nagios virtual machine statistics
+![image6!](imagesReadme/image6.png)
 #
