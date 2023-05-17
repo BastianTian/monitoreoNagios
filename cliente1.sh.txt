@@ -4,8 +4,7 @@ echo "Instalación de las herramientas necesarias"
 sudo yum install -y vim
 sudo yum install -y net-tools
 sudo yum install -y epel-release
-sudo yum update -y
-
+sudo yum -y update 
 echo "Instalacion de los plugins de nagios"
 sudo yum install -y nagios-plugins-all
 
@@ -14,6 +13,7 @@ cat <<TEST> /etc/selinux/config
 SELINUX=disabled
 SELINUXTYPE=targeted
 TEST
+
 
 echo "Instalar nagios nrpe"
 sudo yum install -y nrpe
@@ -28,14 +28,21 @@ sudo sed -i '305i command[check_sda1]=/usr/lib64/nagios/plugins/check_disk -w 20
 
 
 sudo systemctl enable --now nrpe
-
 sudo systemctl restart nrpe
 
+echo "instalacion HTTP con api sencillo"
+sudo yum -y update
+sudo yum install httpd -y
+httpd -v
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl reload httpd
 
-echo "instalacion del servicio FTP"
-sudo yum -y install vsftpd
-sudo  systemctl enable vsftpd
-sudo  systemctl start vsftpd
+echo "Crear archivos de config de http"
+echo "<html><body><h1>index</h1></body></html>" > /var/www/html/index.html
+echo "console.log('users');" > /var/www/html/users.js
+echo "console.log('images.');" > /var/www/html/images.js
+service httpd restart
 
 
 echo "Instalacion de NRPE para monitoreo"
@@ -49,4 +56,3 @@ cd linux-nrpe-agent
 ./fullinstall -y
 rpm -Uvh https://repo.nagios.com/nagios/7/nagios-repo-7-4.el7.noarch.rpm
 yum install ncpa -y
-
